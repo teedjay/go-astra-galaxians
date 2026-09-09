@@ -7,7 +7,7 @@ import (
 )
 
 func TestSynthesizedAudioIsStereoAndHasHeadroom(t *testing.T) {
-	sounds := map[string][]byte{"intro": makeTune(false), "sid": makeSIDTune(), "interlude": makeWaveJingle(), "ending": makeTune(true), "beam": makeBeamHum()}
+	sounds := map[string][]byte{"intro": makeTune(false), "sid": makeSIDTune(), "attract": makeAttractTune(), "interlude": makeWaveJingle(), "ending": makeTune(true), "beam": makeBeamHum()}
 	for _, name := range []string{"blaster", "rocket", "pulse", "explosion", "huge", "hit", "up", "down", "star"} {
 		sounds[name] = makeSound(name)
 	}

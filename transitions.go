@@ -1,6 +1,8 @@
 package main
 
 const (
+	fadeToAttract = 4
+	fadeAttractIn = 5
 	fadeLaunch    = 3
 	fadeIn        = 1
 	fadeOut       = 2
@@ -14,11 +16,16 @@ func (g *game) updateTransition(pressed bool) bool {
 	if g.fadePhase != 0 {
 		g.fadeTick++
 		if g.fadeTick >= fadeDuration {
-			if g.fadePhase == fadeLaunch {
+			if g.fadePhase == fadeToAttract {
+				g.startAttract()
+			} else if g.fadePhase == fadeLaunch {
 				g.reset()
 			} else if g.fadePhase == fadeOut {
 				g.reset()
 				g.started = false
+				if g.sound != nil {
+					g.sound.previousScene = -1
+				}
 				g.fadePhase = fadeIn
 			} else {
 				g.fadePhase = 0
@@ -44,9 +51,9 @@ func (g *game) fadeAlpha() float64 {
 	t := float64(g.fadeTick) / fadeDuration
 	t = t * t * (3 - 2*t)
 	switch g.fadePhase {
-	case fadeIn:
+	case fadeIn, fadeAttractIn:
 		return 1 - t
-	case fadeOut, fadeLaunch:
+	case fadeOut, fadeLaunch, fadeToAttract:
 		return t
 	}
 	return 0

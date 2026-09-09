@@ -49,6 +49,8 @@ type star struct {
 	speed float64
 }
 type game struct {
+	attract                                                    bool
+	introTicks, attractTicks                                   int
 	cat                                                        pixelCat
 	catFrames                                                  []*ebiten.Image
 	fragments                                                  []shipFragment
@@ -117,6 +119,9 @@ func newGame() *game {
 	return g
 }
 func (g *game) reset() {
+	g.attract = false
+	g.introTicks = 0
+	g.attractTicks = 0
 	g.cat = pixelCat{wait: 300}
 	g.fragments = nil
 	g.deathTicks = 0
@@ -173,17 +178,18 @@ func (g *game) emit(p point, c color.RGBA, n int) {
 }
 func (g *game) Update() error {
 	defer g.syncAudio()
-	if !g.over && inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+	if !g.over && !g.attract && g.fadePhase != fadeToAttract && inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		return ebiten.Termination
 	}
 	pressed := len(inpututil.AppendJustPressedKeys(nil)) > 0 || inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonRight) || inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonMiddle)
+	g.updateAttractSequence(pressed)
 	transitioning := g.updateTransition(pressed)
 	if !g.started && !transitioning {
 		if inpututil.IsKeyJustPressed(ebiten.KeyEnter) || inpututil.IsKeyJustPressed(ebiten.KeySpace) {
 			g.fadePhase = fadeLaunch
 			g.fadeTick = 0
 		}
-	} else if g.started && !g.over && !transitioning && inpututil.IsKeyJustPressed(ebiten.KeyP) {
+	} else if g.started && !g.attract && !g.over && !transitioning && inpututil.IsKeyJustPressed(ebiten.KeyP) {
 		g.paused = !g.paused
 	}
 	if g.paused {
@@ -224,14 +230,18 @@ func (g *game) Update() error {
 	if g.cool > 0 {
 		g.cool--
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyLeft) || ebiten.IsKeyPressed(ebiten.KeyA) {
-		g.px -= 5
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyRight) || ebiten.IsKeyPressed(ebiten.KeyD) {
-		g.px += 5
+	if g.attract {
+		g.autopilot()
+	} else {
+		if ebiten.IsKeyPressed(ebiten.KeyLeft) || ebiten.IsKeyPressed(ebiten.KeyA) {
+			g.px -= 5
+		}
+		if ebiten.IsKeyPressed(ebiten.KeyRight) || ebiten.IsKeyPressed(ebiten.KeyD) {
+			g.px += 5
+		}
 	}
 	g.px = math.Max(40, math.Min(W-40, g.px))
-	if ebiten.IsKeyPressed(ebiten.KeySpace) && g.cool == 0 {
+	if (g.attract || ebiten.IsKeyPressed(ebiten.KeySpace)) && g.cool == 0 {
 		g.bullets = append(g.bullets, bullet{point{g.px, H - 91}, 0, -9, false})
 		g.sfx("blaster")
 		g.cool = 9
@@ -242,6 +252,9 @@ func (g *game) Update() error {
 			g.wave++
 			g.spawn = waveSize
 			g.nextWave = waveBreakTicks
+			if g.attract {
+				g.nextWave = 60
+			}
 			g.bullets = nil
 		}
 	}
@@ -328,7 +341,7 @@ func (g *game) Update() error {
 		}
 	}
 	g.bullets = bs
-	g.updateWeapons(ebiten.IsKeyPressed(ebiten.KeySpace) && !g.over)
+	g.updateWeapons((g.attract || ebiten.IsKeyPressed(ebiten.KeySpace)) && !g.over)
 	g.updatePowerups()
 	as := g.aliens[:0]
 	for _, a := range g.aliens {
@@ -337,14 +350,14 @@ func (g *game) Update() error {
 		}
 	}
 	g.aliens = as
-	if g.score > g.best {
+	if !g.attract && g.score > g.best {
 		g.best = g.score
 	}
 	return nil
 }
 func angleDelta(a, b float64) float64 { return math.Atan2(math.Sin(b-a), math.Cos(b-a)) }
 func (g *game) hit() {
-	if g.over {
+	if g.over || g.attract {
 		return
 	}
 	g.sfx("hit")
@@ -459,6 +472,9 @@ func (g *game) Draw(s *ebiten.Image) {
 		center(s, "HOLD SPACE TO FIRE", 485, 1.5, white)
 		center(s, "PRESS ENTER TO LAUNCH", 546, 2, palettes[2])
 		center(s, "40 HOSTILES  /  THREE FORMATIONS  /  ENDLESS WAVES", 657, 1, color.RGBA{108, 128, 164, 255})
+	}
+	if g.attract {
+		center(s, "ATTRACT MODE - PRESS ANY KEY", 96, 1.5, palettes[2])
 	}
 	g.drawCat(s)
 	if g.gameOverVisible() || g.paused {

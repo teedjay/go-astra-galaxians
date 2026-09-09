@@ -26,7 +26,13 @@ Våpenet oppgraderes fra **blaster** til **målsøkende raketter**, **raske lase
 
 Nedtellingen vises øverst til høyre når du har et oppgradert våpen. Når tiden løper ut, går våpenet tilbake til blaster. Nedtellingen pauses gjennom hele oppholdet mellom bølgene, inkludert musikken og ventetiden etterpå, og fortsetter når neste bølge starter. På laveste nivå slippes bare oppgraderinger; på høyeste nivå slippes bare nedgraderinger og stjerner. Avfyrte prosjektiler fullfører normalt ved nedgradering, og kontinuerlige lasere trekkes tilbake i kanonene.
 
-Introen har en SID-inspirert chiptune. Mellom bølgene spilles første del av en kortere låt. Den fader ut før gjentakelsen, etter omtrent 5,7 sekunder, fulgt av to sekunders pause. Under aktive bølger høres bare lydeffekter. Når siste liv går tapt, eksploderer skipet i flammer, røyk og fallende pixelbiter før «game over» vises. En liten, ufarlig pixelkatt går av og til langs bunnen av skjermen.
+Introen har en SID-inspirert chiptune som spilles én gang. Mellom bølgene spilles første del av en kortere låt. Den fader ut før gjentakelsen, etter omtrent 5,7 sekunder, fulgt av to sekunders pause. Under aktive bølger høres bare lydeffekter. Når siste liv går tapt, eksploderer skipet i flammer, røyk og fallende pixelbiter før «game over» vises. En liten, ufarlig pixelkatt går av og til langs bunnen av skjermen.
+
+## Attract mode
+
+Når introlåten er ferdig, blir introen stående i ti sekunder før den fader ut. Spillet viser deretter en automatisk demonstrasjon som starter på en tilfeldig bølge. Skipet styrer og skyter selv, viser ulike våpen og kan ikke miste liv i demonstrasjonen. Beste poengsum påvirkes ikke.
+
+Demonstrasjonen har ingen lydeffekter eller mellomnivå-jingler. I stedet spilles den originale C64-inspirerte låten **Orbit Runner** på omtrent 102 sekunder, med tung bass, portamento, pulsbølger og raske arpeggioer. Mot slutten fader lyd og bilde ut, før introen starter på nytt med innfading og intromusikk. Et nytt tastetrykk eller museklikk under demonstrasjonen eller overgangen til den starter samme retur til introen. Dette gjelder også Esc og P. Enter eller mellomrom fra den vanlige introen starter fortsatt et vanlig spill.
 
 ## Kontroller
 

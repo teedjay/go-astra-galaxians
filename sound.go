@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"math"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2/audio"
 )
@@ -11,6 +12,8 @@ import (
 const soundRate = 44100
 
 type soundSystem struct {
+	attractMusic        *audio.Player
+	attractLength       time.Duration
 	interlude           *audio.Player
 	interludeWave       int
 	interludePaused     bool
@@ -25,15 +28,13 @@ func newSoundSystem() (*soundSystem, error) {
 	loop := func(data []byte) (*audio.Player, error) {
 		return ctx.NewPlayer(audio.NewInfiniteLoop(bytes.NewReader(data), int64(len(data))))
 	}
-	intro, err := loop(makeSIDTune())
-	if err != nil {
-		return nil, err
-	}
+	intro := ctx.NewPlayerFromBytes(makeSIDTune())
+	attractPCM := makeAttractTune()
 	beam, err := loop(makeBeamHum())
 	if err != nil {
 		return nil, err
 	}
-	s := &soundSystem{interlude: ctx.NewPlayerFromBytes(makeWaveJingle()), intro: intro, ending: ctx.NewPlayerFromBytes(makeTune(true)), beam: beam, voices: map[string][]*audio.Player{}, previousScene: -1}
+	s := &soundSystem{attractMusic: ctx.NewPlayerFromBytes(attractPCM), attractLength: time.Duration(len(attractPCM)/4) * time.Second / soundRate, interlude: ctx.NewPlayerFromBytes(makeWaveJingle()), intro: intro, ending: ctx.NewPlayerFromBytes(makeTune(true)), beam: beam, voices: map[string][]*audio.Player{}, previousScene: -1}
 	for _, name := range []string{"blaster", "rocket", "pulse", "explosion", "huge", "hit", "up", "down", "star"} {
 		data := makeSound(name)
 		for i := 0; i < 4; i++ {
@@ -45,7 +46,7 @@ func newSoundSystem() (*soundSystem, error) {
 	return s, nil
 }
 func (g *game) sfx(name string) {
-	if g.sound == nil || g.over || g.paused {
+	if g.sound == nil || g.over || g.paused || g.attract {
 		return
 	}
 	for _, p := range g.sound.voices[name] {
@@ -71,7 +72,11 @@ func (g *game) syncAudio() {
 			scene = 2
 		}
 	}
+	if g.attract {
+		scene = 4
+	}
 	if scene != s.previousScene {
+		s.attractMusic.Pause()
 		s.interlude.Pause()
 		s.interludeWave = 0
 		s.interludePaused = false
@@ -85,6 +90,10 @@ func (g *game) syncAudio() {
 			}
 		}
 		switch scene {
+		case 4:
+			_ = s.attractMusic.Rewind()
+			s.attractMusic.SetVolume(0)
+			s.attractMusic.Play()
 		case 0:
 			_ = s.intro.Rewind()
 			s.intro.SetVolume(0)
@@ -106,6 +115,9 @@ func (g *game) syncAudio() {
 	}
 	if scene == 2 {
 		s.ending.SetVolume(.5 * (1 - g.fadeAlpha()))
+	}
+	if scene == 4 {
+		s.attractMusic.SetVolume(.48 * (1 - g.fadeAlpha()))
 	}
 	if scene != 1 {
 		return
