@@ -125,3 +125,34 @@ func TestPickupEligibilityByLevel(t *testing.T) {
 		}
 	}
 }
+
+func TestWeaponTimerPausesForEntireWaveBreak(t *testing.T) {
+	g := testGame()
+	g.wave = 1
+	g.weaponLevel = 3
+	g.weaponTime = 1
+	for i := 0; i < waveBreakTicks; i++ {
+		g.updateWeaponTimer()
+	}
+	if g.weaponTime != 1 || g.weaponLevel != 3 {
+		t.Fatal("weapon expired during interlude or extra wait")
+	}
+	g.powerups = []powerup{{p: point{g.px, H - 76}, star: true}}
+	g.updatePowerups()
+	g.updateWeaponTimer()
+	if g.weaponTime != 301 {
+		t.Fatal("pickup time should also be preserved during break")
+	}
+	g.wave++
+	g.spawn = waveSize
+	g.updateWeaponTimer()
+	if g.weaponTime != 300 {
+		t.Fatal("timer must resume when next wave starts spawning")
+	}
+	g.spawn = 0
+	g.aliens = []*alien{{hp: 1}}
+	g.updateWeaponTimer()
+	if g.weaponTime != 299 {
+		t.Fatal("timer must continue while aliens remain")
+	}
+}

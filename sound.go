@@ -346,8 +346,23 @@ func makeBeamHum() []byte {
 	return pcm(dst)
 }
 
-// Play the original intro in full once between waves.
-func makeWaveJingle() []byte { return makeTune(false) }
+// Fade over the last two beats of the first four-bar phrase, before it repeats.
+func makeWaveJingle() []byte {
+	full := makeTune(false)
+	frames := len(full) / 8
+	data := append([]byte(nil), full[:frames*4]...)
+	fadeFrames := int(2. * 60 / 168 * soundRate)
+	for i := frames - fadeFrames; i < frames; i++ {
+		t := float64(i-(frames-fadeFrames)) / float64(fadeFrames-1)
+		gain := 1 - t*t*(3-2*t)
+		for channel := 0; channel < 2; channel++ {
+			at := i*4 + channel*2
+			sample := int16(binary.LittleEndian.Uint16(data[at:]))
+			binary.LittleEndian.PutUint16(data[at:], uint16(int16(float64(sample)*gain)))
+		}
+	}
+	return data
+}
 
-// Eight 4/4 bars at 168 BPM, rounded up to ticks, plus two quiet seconds.
-const waveBreakTicks = 806
+// Four 4/4 bars at 168 BPM, rounded up to ticks, plus two quiet seconds.
+const waveBreakTicks = 463

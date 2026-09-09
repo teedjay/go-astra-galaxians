@@ -180,7 +180,7 @@ func (g *game) setWeaponLevel(level int, down bool) {
 	}
 }
 func (g *game) updateWeaponTimer() {
-	if g.paused || g.over || g.weaponTime <= 0 {
+	if g.paused || g.over || g.weaponTime <= 0 || (g.wave > 0 && len(g.aliens) == 0 && g.spawn == 0) {
 		return
 	}
 	g.weaponTime--

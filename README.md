@@ -24,9 +24,9 @@ Våpenet oppgraderes fra **blaster** til **målsøkende raketter**, **raske lase
 | Rød glødende kapsel | Nedgraderer ett nivå og setter våpentiden til 10 sekunder. |
 | Gul pulserende stjerne | Legger til 5 sekunder uten å endre våpennivået. |
 
-Nedtellingen vises øverst til høyre når du har et oppgradert våpen. Når tiden løper ut, går våpenet tilbake til blaster. På laveste nivå slippes bare oppgraderinger; på høyeste nivå slippes bare nedgraderinger og stjerner. Avfyrte prosjektiler fullfører normalt ved nedgradering, og kontinuerlige lasere trekkes tilbake i kanonene.
+Nedtellingen vises øverst til høyre når du har et oppgradert våpen. Når tiden løper ut, går våpenet tilbake til blaster. Nedtellingen pauses gjennom hele oppholdet mellom bølgene, inkludert musikken og ventetiden etterpå, og fortsetter når neste bølge starter. På laveste nivå slippes bare oppgraderinger; på høyeste nivå slippes bare nedgraderinger og stjerner. Avfyrte prosjektiler fullfører normalt ved nedgradering, og kontinuerlige lasere trekkes tilbake i kanonene.
 
-Introen har en SID-inspirert chiptune. Mellom bølgene spilles en kortere låt i sin helhet, fulgt av to sekunders pause. Under aktive bølger høres bare lydeffekter. Når siste liv går tapt, eksploderer skipet i flammer, røyk og fallende pixelbiter før «game over» vises. En liten, ufarlig pixelkatt går av og til langs bunnen av skjermen.
+Introen har en SID-inspirert chiptune. Mellom bølgene spilles første del av en kortere låt. Den fader ut før gjentakelsen, etter omtrent 5,7 sekunder, fulgt av to sekunders pause. Under aktive bølger høres bare lydeffekter. Når siste liv går tapt, eksploderer skipet i flammer, røyk og fallende pixelbiter før «game over» vises. En liten, ufarlig pixelkatt går av og til langs bunnen av skjermen.
 
 ## Kontroller
 

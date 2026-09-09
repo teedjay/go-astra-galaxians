@@ -61,10 +61,27 @@ func TestLaunchFadesBeforeGameplay(t *testing.T) {
 func TestWaveJingleFitsBreak(t *testing.T) {
 	data := makeWaveJingle()
 	duration := float64(len(data)) / 4 / soundRate
-	if duration < 11 || duration >= 12 {
-		t.Fatal("wave jingle must play the complete original song")
+	if duration < 5.7 || duration >= 5.8 {
+		t.Fatal("wave jingle must stop before the second phrase")
 	}
 	if float64(waveBreakTicks)/60-duration < 2 || float64(waveBreakTicks)/60-duration > 2.02 {
 		t.Fatal("next wave must wait two seconds after jingle")
+	}
+}
+
+func TestWaveJingleFadesBeforeRepeat(t *testing.T) {
+	full := makeTune(false)
+	jingle := makeWaveJingle()
+	if len(jingle) != len(full)/2 {
+		t.Fatal("jingle must end at first phrase boundary")
+	}
+	for i := 0; i < 4*soundRate; i++ {
+		if jingle[i] != full[i] {
+			t.Fatal("opening should remain unchanged")
+		}
+	}
+	at := len(jingle) - 4
+	if binary.LittleEndian.Uint16(jingle[at:]) != 0 || binary.LittleEndian.Uint16(jingle[at+2:]) != 0 {
+		t.Fatal("fade must end in silence")
 	}
 }
