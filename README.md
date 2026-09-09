@@ -60,15 +60,15 @@ go run .
 Bygg og start på macOS eller Linux:
 
 ```sh
-go build -o astra-galaxians .
-./astra-galaxians
+go build -o bin/astra-galaxians .
+./bin/astra-galaxians
 ```
 
 Bygg og start på Windows med PowerShell:
 
 ```powershell
-go build -o astra-galaxians.exe .
-.\astra-galaxians.exe
+go build -o bin/astra-galaxians.exe .
+.\bin\astra-galaxians.exe
 ```
 
 Go laster automatisk ned avhengighetene. På Linux trenger Ebitengine også systemets utviklingsbiblioteker for grafikk og lyd, blant annet X11, OpenGL og ALSA. Prosjektet er bygget og testet på macOS; Windows og Linux er ikke verifisert her.
@@ -77,7 +77,16 @@ Go laster automatisk ned avhengighetene. På Linux trenger Ebitengine også syst
 
 Spillet bruker **Ebitengine 2.10.0**, en logisk oppløsning på **640 × 800** og et vindu som kan endre størrelse. Alienbevegelser og laserbaner bruker kubiske Bézier-kurver. Pixelgrafikken genereres i Go, mens musikk og lydeffekter syntetiseres som stereo PCM ved 44,1 kHz. Partiklene har begrenset levetid, og skipets vrakbiter får tyngdekraft. Ingen eksterne bilde- eller lydfiler er nødvendige, og poengsum lagres ikke mellom oppstarter.
 
-Koden er delt mellom spillogikk i `main.go`, våpen i `weapons.go`, lyd i `sound.go` og `sid_music.go`, samt egne filer for partikler, skipseksplosjon, skjermoverganger og katten.
+Prosjektet er organisert slik:
+
+```text
+main.go          Startpunkt for go run .
+internal/game/   Spillogikk, grafikk, lyd og tester
+bin/             Bygde programmer (ignoreres av Git)
+docs/screenshots/ Skjermbilder brukt i README
+```
+
+I `internal/game/` ligger hovedløkken i `game.go`, oppstarten i `run.go`, våpnene i `weapons.go` og lyden i `sound.go`, `sid_music.go` og `attract_music.go`. Partikler, skipseksplosjon, skjermoverganger, attract mode og katten har egne filer. Testene ligger ved siden av koden de tester.
 
 Kjør tester og statisk kontroll:
 
