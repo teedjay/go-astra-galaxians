@@ -2,6 +2,16 @@
 
 Et Galaxians-inspirert arkadespill laget med Go og Ebitengine. Styr romskipet, skyt aliens og overlev stadig vanskeligere bølger med retro pixelgrafikk, chiptune og store partikkeleksplosjoner.
 
+## Skjermbilder
+
+Introen med pixel-aliens og retrotypografi:
+
+![Introskjermen i ASTRA GALAXIANS](docs/screenshots/intro.png)
+
+En oppsatt kampscene med kraftigste våpennivå: to kontinuerlige lasere, bevegelige knuter og store partikkeleksplosjoner. Begge bildene er tatt med spillets egen renderer.
+
+![Kampscene med Knot Beams, aliens og partikkeleksplosjon](docs/screenshots/action.png)
+
 ## Spillet
 
 Fire typer aliens kommer i bølger på 40, fordelt på ulike formasjoner. De flyr inn langs myke baner, roterer etter bevegelsesretningen og bryter etter hvert ut i stupangrep. Du har tre liv. En beseiret alien gir 100 poeng, eller 250 under angrep. Beste poengsum beholdes til programmet avsluttes.
