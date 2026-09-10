@@ -1,98 +1,98 @@
 # ASTRA GALAXIANS
 
-Et Galaxians-inspirert arkadespill laget med Go og Ebitengine. Styr romskipet, skyt aliens og overlev stadig vanskeligere bølger med retro pixelgrafikk, chiptune og store partikkeleksplosjoner.
+A Galaxians-inspired arcade game built with Go and Ebitengine. Pilot your spaceship, shoot aliens, and survive increasingly difficult waves with retro pixel graphics, chiptune music, and large particle explosions.
 
-## Skjermbilder
+## Screenshots
 
-Introen med pixel-aliens og retrotypografi:
+The intro featuring pixel aliens and retro typography:
 
-![Introskjermen i ASTRA GALAXIANS](docs/screenshots/intro.png)
+![ASTRA GALAXIANS intro screen](docs/screenshots/intro.png)
 
-En oppsatt kampscene med kraftigste våpennivå: to kontinuerlige lasere, bevegelige knuter og store partikkeleksplosjoner. Begge bildene er tatt med spillets egen renderer.
+A staged combat scene featuring the highest weapon level: two continuous lasers, moving knots, and large particle explosions. Both screenshots were captured using the game's own renderer.
 
-![Kampscene med Knot Beams, aliens og partikkeleksplosjon](docs/screenshots/action.png)
+![Combat scene with Knot Beams, aliens, and a particle explosion](docs/screenshots/action.png)
 
-## Spillet
+## Gameplay
 
-Fire typer aliens kommer i bølger på 40, fordelt på ulike formasjoner. De flyr inn langs myke baner, roterer etter bevegelsesretningen og bryter etter hvert ut i stupangrep. Du har tre liv. En beseiret alien gir 100 poeng, eller 250 under angrep. Beste poengsum beholdes til programmet avsluttes.
+Four types of aliens arrive in waves of 40, arranged in various formations. They fly in along smooth paths, rotate to match their direction of movement, and eventually break away into diving attacks. You have three lives. Defeating an alien awards 100 points, or 250 while it is attacking. The high score is kept until you exit the program.
 
-Våpenet oppgraderes fra **blaster** til **målsøkende raketter**, **raske laserpulser** og til slutt **kontinuerlige lasere** som følger ulike mål og danner bevegelige knuter. Hovedkanonen beholdes på alle nivåer.
+Your weapon upgrades from a **blaster** to **homing missiles**, **rapid laser pulses**, and finally **continuous lasers** that track different targets and form moving knots. The main cannon remains available at every level.
 
-| Pickup | Effekt |
+| Pickup | Effect |
 | --- | --- |
-| Grønn glødende kapsel | Oppgraderer ett nivå og setter våpentiden til 10 sekunder. Ved maks nivå endres ikke tiden. |
-| Rød glødende kapsel | Nedgraderer ett nivå og setter våpentiden til 10 sekunder. |
-| Gul pulserende stjerne | Legger til 5 sekunder uten å endre våpennivået. |
+| Green glowing capsule | Upgrades the weapon by one level and sets the weapon timer to 10 seconds. At the maximum level, the timer remains unchanged. |
+| Red glowing capsule | Downgrades the weapon by one level and sets the weapon timer to 10 seconds. |
+| Yellow pulsing star | Adds 5 seconds without changing the weapon level. |
 
-Nedtellingen vises øverst til høyre når du har et oppgradert våpen. Når tiden løper ut, går våpenet tilbake til blaster. Nedtellingen pauses gjennom hele oppholdet mellom bølgene, inkludert musikken og ventetiden etterpå, og fortsetter når neste bølge starter. På laveste nivå slippes bare oppgraderinger; på høyeste nivå slippes bare nedgraderinger og stjerner. Avfyrte prosjektiler fullfører normalt ved nedgradering, og kontinuerlige lasere trekkes tilbake i kanonene.
+The countdown appears in the top right when you have an upgraded weapon. When time runs out, the weapon reverts to the blaster. The countdown pauses throughout the entire break between waves, including the music and the wait afterward, and resumes when the next wave begins. At the lowest level, only upgrades drop; at the highest level, only downgrades and stars drop. Projectiles already fired complete their course normally when the weapon is downgraded, while continuous lasers retract into the cannons.
 
-Introen har en SID-inspirert chiptune som spilles én gang. Mellom bølgene spilles første del av en kortere låt. Den fader ut før gjentakelsen, etter omtrent 5,7 sekunder, fulgt av to sekunders pause. Under aktive bølger høres bare lydeffekter. Når siste liv går tapt, eksploderer skipet i flammer, røyk og fallende pixelbiter før «game over» vises. En liten, ufarlig pixelkatt går av og til langs bunnen av skjermen.
+The intro features a SID-inspired chiptune that plays once. Between waves, the first part of a shorter track plays. It fades out before repeating, after about 5.7 seconds, followed by a two-second pause. Only sound effects play during active waves. When the last life is lost, the ship explodes into flames, smoke, and falling pixel fragments before the game over screen appears. A small, harmless pixel cat occasionally walks along the bottom of the screen.
 
 ## Attract mode
 
-Når introlåten er ferdig, blir introen stående i ti sekunder før den fader ut. Spillet viser deretter en automatisk demonstrasjon som starter på en tilfeldig bølge. Skipet styrer og skyter selv, viser ulike våpen og kan ikke miste liv i demonstrasjonen. Beste poengsum påvirkes ikke.
+Once the intro track finishes, the intro remains on screen for ten seconds before fading out. The game then shows an automatic demonstration starting at a random wave. The ship steers and fires on its own, showcases different weapons, and cannot lose lives during the demonstration. The high score is unaffected.
 
-Demonstrasjonen har ingen lydeffekter eller mellomnivå-jingler. I stedet spilles den originale C64-inspirerte låten **Orbit Runner** på omtrent 102 sekunder, med tung bass, portamento, pulsbølger og raske arpeggioer. Mot slutten fader lyd og bilde ut, før introen starter på nytt med innfading og intromusikk. Et nytt tastetrykk eller museklikk under demonstrasjonen eller overgangen til den starter samme retur til introen. Dette gjelder også Esc og P. Enter eller mellomrom fra den vanlige introen starter fortsatt et vanlig spill.
+The demonstration has no sound effects or between-wave jingles. Instead, it plays the original C64-inspired track **Orbit Runner**, which lasts about 102 seconds and features heavy bass, portamento, pulse waves, and rapid arpeggios. Near the end, the audio and visuals fade out before the intro restarts with a fade-in and intro music. A new keypress or mouse click during the demonstration or the transition into it triggers the same return to the intro. This also applies to Esc and P. Enter or Space from the regular intro still starts a normal game.
 
-## Kontroller
+## Controls
 
-| Tast | Handling |
+| Key | Action |
 | --- | --- |
-| Enter eller mellomrom | Start fra introen etter innfadingen. |
-| Venstre/høyre pil eller A/D | Beveg skipet. |
-| Hold mellomrom | Skyt med hovedkanon og tilgjengelige sidevåpen. |
-| P | Pause eller fortsett. Nedtellingen pauses også. |
-| Esc | Avslutt fra introen eller under spilling. |
-| En tast eller museklikk på «game over» | Start utfading tilbake til introen. |
+| Enter or Space | Start from the intro after the fade-in. |
+| Left/right arrow or A/D | Move the ship. |
+| Hold Space | Fire the main cannon and available side weapons. |
+| P | Pause or resume. The countdown also pauses. |
+| Esc | Quit from the intro or during gameplay. |
+| Any key or mouse click on the game over screen | Start fading back to the intro. |
 
-«Game over» går også automatisk tilbake til introen etter ti sekunder. Skipseksplosjonen fullføres før denne skjermen vises; tastetrykk hopper ikke over eksplosjonen.
+The game over screen also returns to the intro automatically after ten seconds. The ship explosion finishes before this screen appears; keypresses do not skip the explosion.
 
-## Bygge og kjøre
+## Building and running
 
-Du trenger **Go 1.27.1 eller nyere**, et grafisk skrivebord og nettverkstilgang for første nedlasting av avhengigheter. Kjør kommandoene fra prosjektmappen.
+You need **Go 1.27.1 or later**, a graphical desktop, and network access for the initial dependency download. Run the commands from the project directory.
 
-Start direkte:
+Run directly:
 
 ```sh
 go run .
 ```
 
-Bygg og start på macOS eller Linux:
+Build and run on macOS or Linux:
 
 ```sh
 go build -o bin/astra-galaxians .
 ./bin/astra-galaxians
 ```
 
-Bygg og start på Windows med PowerShell:
+Build and run on Windows using PowerShell:
 
 ```powershell
 go build -o bin/astra-galaxians.exe .
 .\bin\astra-galaxians.exe
 ```
 
-Go laster automatisk ned avhengighetene. På Linux trenger Ebitengine også systemets utviklingsbiblioteker for grafikk og lyd, blant annet X11, OpenGL og ALSA. Prosjektet er bygget og testet på macOS; Windows og Linux er ikke verifisert her.
+Go downloads dependencies automatically. On Linux, Ebitengine also requires system development libraries for graphics and audio, including X11, OpenGL, and ALSA. The project has been built and tested on macOS; Windows and Linux have not been verified here.
 
-## Teknisk informasjon
+## Technical information
 
-Spillet bruker **Ebitengine 2.10.0**, en logisk oppløsning på **640 × 800** og et vindu som kan endre størrelse. Alienbevegelser og laserbaner bruker kubiske Bézier-kurver. Pixelgrafikken genereres i Go, mens musikk og lydeffekter syntetiseres som stereo PCM ved 44,1 kHz. Partiklene har begrenset levetid, og skipets vrakbiter får tyngdekraft. Ingen eksterne bilde- eller lydfiler er nødvendige, og poengsum lagres ikke mellom oppstarter.
+The game uses **Ebitengine 2.10.0**, a logical resolution of **640 × 800**, and a resizable window. Alien movement and laser paths use cubic Bézier curves. Pixel graphics are generated in Go, while music and sound effects are synthesized as stereo PCM at 44.1 kHz. Particles have limited lifetimes, and ship debris is affected by gravity. No external image or audio files are required, and scores are not saved between launches.
 
-Prosjektet er organisert slik:
+The project is organized as follows:
 
 ```text
-main.go          Startpunkt for go run .
-internal/game/   Spillogikk, grafikk, lyd og tester
-bin/             Bygde programmer (ignoreres av Git)
-docs/screenshots/ Skjermbilder brukt i README
+main.go           Entry point for go run .
+internal/game/    Game logic, graphics, audio, and tests
+bin/              Built executables (ignored by Git)
+docs/screenshots/ Screenshots used in the README
 ```
 
-I `internal/game/` ligger hovedløkken i `game.go`, oppstarten i `run.go`, våpnene i `weapons.go` og lyden i `sound.go`, `sid_music.go` og `attract_music.go`. Partikler, skipseksplosjon, skjermoverganger, attract mode og katten har egne filer. Testene ligger ved siden av koden de tester.
+In `internal/game/`, the main loop is in `game.go`, startup is in `run.go`, weapons are in `weapons.go`, and audio is in `sound.go`, `sid_music.go`, and `attract_music.go`. Particles, the ship explosion, screen transitions, attract mode, and the cat each have their own files. Tests live alongside the code they test.
 
-Kjør tester og statisk kontroll:
+Run tests and static analysis:
 
 ```sh
 go test ./...
 go vet ./...
 ```
 
-Testene dekker blant annet formasjoner, bevegelsesbaner, våpen, pickups, tidsstyring, eksplosjoner, skjermoverganger og genererte lyddata.
+Tests cover formations, movement paths, weapons, pickups, timing, explosions, screen transitions, and generated audio data, among other things.
